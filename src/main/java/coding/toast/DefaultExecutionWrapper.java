@@ -7,13 +7,13 @@ import jakarta.persistence.Persistence;
 
 @FunctionalInterface
 public interface DefaultExecutionWrapper {
-	static void wrapAndExecute(DefaultExecutionWrapper defaultWrapper) {
-		try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-unit");
-		     EntityManager em = emf.createEntityManager()) {
-			
+	static void wrapAndExecute(String persistenceUnitName, DefaultExecutionWrapper defaultWrapper) {
+		try (EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+			 EntityManager em = emf.createEntityManager()) {
+
 			EntityTransaction tx = em.getTransaction();
 			tx.begin();
-			
+
 			try {
 				defaultWrapper.execute(emf, em, tx);
 				tx.commit();
@@ -21,7 +21,7 @@ public interface DefaultExecutionWrapper {
 				tx.rollback();
 				throw new RuntimeException(e);
 			}
-			
+
 		}
 	}
 	
