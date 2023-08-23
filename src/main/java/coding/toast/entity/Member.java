@@ -2,18 +2,22 @@ package coding.toast.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @SequenceGenerator(
 	name = "member_sequence",
+	schema = "jpa",
 	sequenceName = "member_seq",
-	allocationSize = 10
+	allocationSize = 1
 )
 @Getter @Setter @ToString
+@Builder @NoArgsConstructor @AllArgsConstructor
 public class Member {
 	
 	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_sequence")
@@ -21,13 +25,16 @@ public class Member {
 	
 	@Column(nullable = false)
 	private String name;
+	
 	private Integer age;
 	
+	@CreationTimestamp
+	@Column(updatable = false, nullable = false)
+	private LocalDate signupDate;
+
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private RoleType roleType = RoleType.USER;
-	
-	@Temporal(TemporalType.DATE)
-	private Date date;
 	
 	@Override
 	public final boolean equals(Object o) {

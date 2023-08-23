@@ -15,6 +15,9 @@
     <!-- hibernate 6 버전부터는 org.hibernate.orm.jdbc.bind 로 변경되었습니다. -->
     <logger name="org.hibernate.orm.jdbc.bind" level="TRACE"/>
 
+    <!-- schema 생성 Trace 를 위한 것 -->
+    <logger name="org.hibernate.tool.schema.internal.Helper" level="TRACE"/>
+
     <root level="info">
         <appender-ref ref="CONSOLE"/>
     </root>

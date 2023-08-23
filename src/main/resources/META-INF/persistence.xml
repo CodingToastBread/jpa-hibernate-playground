@@ -29,7 +29,6 @@
 
     <!-- postgresql db persistence unit -->
     <persistence-unit name="postgresUnit">
-        <!-- https://jakarta.ee/specifications/persistence/3.0/jakarta-persistence-spec-3.0#a12384 참고 -->
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="jakarta.persistence.jdbc.url"    value="jdbc:postgresql://localhost:10011/postgres" />
@@ -38,11 +37,21 @@
             <property name="jakarta.persistence.lock.timeout" value="100"/>
             <property name="jakarta.persistence.query.timeout" value="100"/>
 
+            <!-- use sql file for schema create, if your -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+            <property name="jakarta.persistence.schema-generation.create-source" value="script"/>
+            <property name="jakarta.persistence.schema-generation.create-script-source" value="META-INF/sql/create.sql"/>
+            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor" />
+
+            <!-- sql 로 직접 schema 생성 -->
+            <!--<property name="hibernate.hbm2ddl.auto" value="update" />-->
+
             <property name="hibernate.dialect"    value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="hibernate.default_schema" value="jpa"/>
             <property name="hibernate.show_sql"   value="true" />
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.use_sql_comments" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create" />
             <property name="hibernate.physical_naming_strategy" value="org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy"/>
             <property name="hibernate.jdbc.batch_size" value="10"/>
         </properties>
