@@ -2,6 +2,9 @@ drop table if exists jpa.user cascade;
 drop table if exists jpa.blog cascade;
 drop table if exists jpa.menu cascade;
 drop table if exists jpa.post cascade;
+drop table if exists jpa.comment cascade;
+drop table if exists jpa.tag cascade;
+drop table if exists jpa.post_tag cascade;
 
 create table jpa.user(
     user_id bigint not null,
@@ -106,8 +109,3 @@ create table jpa.post_tag (
 comment on table jpa.post_tag is '게시물_태그_중간_테이블';
 comment on column jpa.post_tag.post_id is '게시물_아이디';
 comment on column jpa.post_tag.tag_id is '태그_아이디';
-
-
-SELECT * FROM JPA.USER;
-SELECT * FROM JPA.BLOG;
-
