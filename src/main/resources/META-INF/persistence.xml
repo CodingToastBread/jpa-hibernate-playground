@@ -38,13 +38,13 @@
             <property name="jakarta.persistence.query.timeout" value="100"/>
 
             <!-- use sql file for schema initialization instead of [hibernate.hbm2ddl.auto] config -->
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-            <!-- <property name="jakarta.persistence.schema-generation.database.action" value="none"/> -->
-            <property name="jakarta.persistence.schema-generation.create-source" value="script"/>
-            <property name="jakarta.persistence.schema-generation.create-script-source" value="META-INF/sql/create.sql"/>
-            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor" />
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>-->
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/> -->
+<!--            <property name="jakarta.persistence.schema-generation.create-source" value="script"/>-->
+<!--            <property name="jakarta.persistence.schema-generation.create-script-source" value="META-INF/sql/create.sql"/>-->
+<!--            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor" />-->
 
-            <!-- <property name="hibernate.hbm2ddl.auto" value="update" />-->
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
 
             <property name="hibernate.dialect"    value="org.hibernate.dialect.PostgreSQLDialect" />
             <!-- use jpa schema as default -->
