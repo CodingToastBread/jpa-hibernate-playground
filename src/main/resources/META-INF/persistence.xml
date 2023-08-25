@@ -4,29 +4,7 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
              https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
 
-    <!-- https://jakarta.ee/specifications/persistence/3.0/jakarta-persistence-spec-3.0#a12384 참고 -->
-
-    <!-- h2 db persistence unit -->
-    <persistence-unit name="h2Unit">
-
-        <properties>
-            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver" />
-            <property name="jakarta.persistence.jdbc.url"    value="jdbc:h2:tcp://localhost/~/test" />
-            <property name="jakarta.persistence.jdbc.user"   value="sa" />
-            <property name="jakarta.persistence.jdbc.password" value="sa" />
-            <property name="jakarta.persistence.lock.timeout" value="100"/>
-            <property name="jakarta.persistence.query.timeout" value="100"/>
-
-            <property name="hibernate.dialect"    value="org.hibernate.dialect.H2Dialect" />
-            <property name="hibernate.show_sql"   value="true" />
-            <property name="hibernate.format_sql" value="true" />
-            <property name="hibernate.use_sql_comments" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create" />
-            <property name="hibernate.physical_naming_strategy" value="org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy"/>
-            <property name="hibernate.jdbc.batch_size" value="10"/>
-        </properties>
-    </persistence-unit>
-
+    <!-- reference: https://jakarta.ee/specifications/persistence/3.0/jakarta-persistence-spec-3.0#a12384 -->
     <!-- postgresql db persistence unit -->
     <persistence-unit name="postgresUnit">
         <properties>
@@ -45,10 +23,8 @@
 <!--            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor" />-->
 
             <property name="hibernate.hbm2ddl.auto" value="validate" />
-
             <property name="hibernate.dialect"    value="org.hibernate.dialect.PostgreSQLDialect" />
-            <!-- use jpa schema as default -->
-            <property name="hibernate.default_schema" value="jpa"/>
+            <property name="hibernate.default_schema" value="blog"/>
             <property name="hibernate.show_sql"   value="true" />
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.use_sql_comments" value="true" />
