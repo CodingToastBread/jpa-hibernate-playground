@@ -220,3 +220,6 @@ buildNumber.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,eclipse,visualstudiocode,maven
 /.idea/
+
+# ignore drawio.bkp
+*.drawio.bkp
