@@ -45,7 +45,6 @@ comment on sequence blog.comment_id_seq is '댓글_테이블_시퀀스';
 comment on sequence blog.tag_id_seq is '태그_테이블_시퀀스';
 comment on sequence blog.post_tag_id_seq is '게시물_테그_테이블_시퀀스';
 
-
 create table blog.users (
     user_id bigint not null default nextval('blog.users_id_seq'),
     nickname varchar(255) not null,
@@ -65,9 +64,9 @@ comment on column blog.users.age is '사용자_나이';
 
 create table blog.blog (
     blog_id bigint not null default nextval('blog.blog_id_seq'),
+    user_id bigint not null,
     blog_name varchar(255) not null,
     blog_create_date date not null default current_date,
-    user_id bigint not null,
     constraint blog_blog_pk primary key (blog_id),
     constraint blog_blog_to_user_fk foreign key (user_id) references blog.users(user_id)
 );
@@ -81,10 +80,10 @@ comment on column blog.blog.user_id is '블로그_생성자_아이디';
 
 create table blog.menu (
     menu_id bigint not null default nextval('blog.menu_id_seq'),
+    blog_id bigint not null,
     menu_name varchar(255) not null,
     menu_order smallint default 0,
     parent_menu_id bigint,
-    blog_id bigint not null,
     constraint blog_menu_id primary key (menu_id),
     constraint blog_menu_name_unique unique (menu_name),
     constraint blog_menu_to_blog_fk foreign key (blog_id) references blog.blog(blog_id),
@@ -144,7 +143,8 @@ comment on column blog.tag.tag_id is '태그_아이디';
 comment on column blog.tag.tag_name is '태그_명칭';
 
 create table blog.post_tag (
-    post_id bigint not null default nextval('blog.post_tag_id_seq'),
+    post_tag_id bigint  default nextval('blog.post_tag_id_seq') not null,
+    post_id bigint not null,
     tag_id bigint not null,
     constraint blog_post_tag_middle_to_post_fk foreign key (post_id) references blog.post(post_id),
     constraint blog_post_tag_middle_to_tag_id_fk foreign key (tag_id) references blog.tag(tag_id)
