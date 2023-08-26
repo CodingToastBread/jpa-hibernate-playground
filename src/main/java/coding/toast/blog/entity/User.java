@@ -1,10 +1,12 @@
 package coding.toast.blog.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +18,8 @@ import java.util.List;
 	allocationSize = 1 // increment size 와 동일해야 함
 )
 @Getter
-@ToString
+@ToString(exclude = "blogList")
+@NoArgsConstructor
 public class User {
 	@Id
 	@GeneratedValue(generator = "userIdSequence")
@@ -34,11 +37,16 @@ public class User {
 	// smallint 같은 타입들은 columnDefinition 으로 직접 세팅해주는 게 좋다.
 	@Column(columnDefinition = "smallint check ((age > 0) AND (age <= 140))",
 			nullable = false)
-	@ToString.Exclude
 	private Short age;
 
 	@OneToMany(mappedBy = "user")
-	@ToString.Exclude
-	private List<Blog> blogList;
+	private List<Blog> blogList = new ArrayList<>();
 	
+	@Builder(builderMethodName = "newUserBuilder")
+	public User(String nickname, String email, String phoneNumber, Short age) {
+		this.nickname = nickname;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.age = age;
+	}
 }

@@ -6,7 +6,7 @@
 
 ### intellij erd
 
-<img src="README-IMG/blog/blog.png">
+<img alt="intellj blog erd" src="README-IMG/blog/blog_intellij_erd.png">
 
 > 자세한 스키마 정보는 제가 작성한 DDL 을 보면서 참고하시기 바랍니다. ([링크 참고](src/main/resources/META-INF/sql/blog_web/blog_web_ddl.sql))
 

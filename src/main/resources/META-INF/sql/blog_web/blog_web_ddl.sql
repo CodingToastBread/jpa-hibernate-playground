@@ -119,8 +119,8 @@ comment on column blog.post.writer_id is '작성자_아이디';
 create table blog.comment (
     comment_id bigint not null default nextval('blog.comment_id_seq'),
     post_id bigint not null,
-    content varchar(500),
-    writer_id bigint,
+    content varchar(500) not null,
+    writer_id bigint not null,
     constraint blog_comment_pk primary key (comment_id),
     constraint blog_comment_to_post_fk foreign key (post_id) references blog.post(post_id)
 );

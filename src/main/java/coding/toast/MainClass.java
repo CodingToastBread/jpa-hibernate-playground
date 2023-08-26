@@ -2,7 +2,9 @@ package coding.toast;
 
 import coding.toast.blog.entity.Blog;
 import coding.toast.blog.entity.User;
+import org.hibernate.Hibernate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static coding.toast.DefaultExecutionWrapper.wrapAndExecute;
@@ -10,15 +12,22 @@ import static coding.toast.DefaultExecutionWrapper.wrapAndExecute;
 public class MainClass {
 	public static void main(String[] args) {
 		wrapAndExecute("postgresUnit", (emf, em, tx) -> {
+			User newUser = User.newUserBuilder()
+				.nickname("codingToastBread")
+				.email("alicia@velog.io")
+				.phoneNumber("010-2222-2222")
+				.age((short) 31)
+				.build();
 			
-			User user = em.find(User.class, 1L);
-			System.out.println("user = " + user);
+			em.persist(newUser);
 			
-			List<Blog> blogList = user.getBlogList();
-			for (Blog blog : blogList) {
-				System.out.println("blog = " + blog);
-			}
+			Blog newBlog = Blog.newBlogBuilder()
+				.blogName("Alicia Blog")
+				.blogCreateDate(LocalDate.now()).build();
 			
+			newBlog.decideOwner(newUser);
+			
+			em.persist(newBlog);
 		});
 	}
 }
