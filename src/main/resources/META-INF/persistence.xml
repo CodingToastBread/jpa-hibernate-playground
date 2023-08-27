@@ -8,27 +8,59 @@
     <!-- postgresql db persistence unit -->
     <persistence-unit name="postgresUnit">
         <properties>
-            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <property name="jakarta.persistence.jdbc.url"    value="jdbc:postgresql://localhost:10011/postgres" />
-            <property name="jakarta.persistence.jdbc.user"   value="postgres" />
-            <property name="jakarta.persistence.jdbc.password" value="postgres" />
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:10011/postgres"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="postgres"/>
             <property name="jakarta.persistence.lock.timeout" value="100"/>
             <property name="jakarta.persistence.query.timeout" value="100"/>
 
-            <!-- use sql file for schema initialization instead of [hibernate.hbm2ddl.auto] config -->
-<!--            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>-->
-<!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/> -->
-<!--            <property name="jakarta.persistence.schema-generation.create-source" value="script"/>-->
-<!--            <property name="jakarta.persistence.schema-generation.create-script-source" value="META-INF/sql/create.sql"/>-->
-<!--            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor" />-->
+            <!-- program 실행할 때마다 DROP 하고 CREATE 하기로 지정함.
+                한번 실행하고 나서는 value 를 none 으로 바꾸면 테스트에서
+                생긴 변동사항을 계속 유지할 수 있다. -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <!--<property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
 
-            <property name="hibernate.hbm2ddl.auto" value="create" />
-            <property name="hibernate.dialect"    value="org.hibernate.dialect.PostgreSQLDialect" />
+            <!-- "create schema" 문법 사용 가능 여부 지정 -->
+            <property name="jakarta.persistence.schema-generation.create-database-schemas" value="true"/>
+
+            <!-- 생성과 관련된 ddl 을 script 를 통해서 수행 -->
+            <property name="jakarta.persistence.schema-generation.create-source" value="script"/>
+
+            <!-- 작성해 놓은 생성 DDL SQL 파일 경로 지정 -->
+            <property name="jakarta.persistence.schema-generation.create-script-source"
+                      value="META-INF/sql/blog_web/blog_web_ddl.sql"/>
+
+            <!-- 삭제와 관련된 ddl 을 script 를 통해서 수행 -->
+            <property name="jakarta.persistence.schema-generation.drop-source" value="script"/>
+
+            <!-- 작성해 놓은 삭제 DDL SQL 파일 경로 지정 -->
+            <property name="jakarta.persistence.schema-generation.drop-script-source"
+                      value="META-INF/sql/blog_web/blog_web_drop.sql"/>
+
+            <!-- insert 관련 DML SQL 을 작성한 파일 경로 지정 -->
+            <property name="jakarta.persistence.sql-load-script-source"
+                      value="META-INF/sql/blog_web/blog_web_data.sql"/>
+
+            <!-- 의외로 복병인 설정. 위의 sql 들은 사실 각 쿼리를 "한줄로" 작성하는 것이 정석이다. 하지만 그러면 가독성이 너무 안 좋다.
+                이를 해결하기 위해서 Hibernate 는 멀티라인이 가능하도록 Extractor 를 제공한다. 사용하면 New Line 이 있어도
+                문제없이 실행된다.
+             -->
+            <property name="hibernate.hbm2ddl.import_files_sql_extractor"
+                      value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor"/>
+
+            <!-- 참고로 위의 jpa 가 제공하는 방식으로 하려면 hibernate.hbm2ddl.auto 설정은 하지 말아야 한다. 꼬일 수 있다.  -->
+            <!-- <property name="hibernate.hbm2ddl.auto" value="validate" />-->
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.default_schema" value="blog"/>
-            <property name="hibernate.show_sql"   value="true" />
-            <property name="hibernate.format_sql" value="true" />
-<!--            <property name="hibernate.use_sql_comments" value="true" />-->
-            <property name="hibernate.physical_naming_strategy" value="org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <!--<property name="hibernate.use_sql_comments" value="true"/>-->
+
+            <!-- java = camelCase, DB = snake_case -->
+            <property name="hibernate.physical_naming_strategy"
+                      value="org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy"/>
             <property name="hibernate.jdbc.batch_size" value="10"/>
         </properties>
     </persistence-unit>

@@ -1,41 +1,15 @@
 set client_min_messages = warning;
 
-/* drop all table in blog schema */
-
 create schema if not exists blog;
-alter schema blog owner to postgres;
+comment on schema blog is '블로그 사이트를 위한 스키마';
 
-DO $$
-DECLARE
-    r record;
-BEGIN
-    FOR r IN SELECT quote_ident(tablename) AS tablename, quote_ident(schemaname) AS schemaname FROM pg_tables WHERE schemaname = 'blog'
-        LOOP
-            RAISE INFO 'Dropping table if exists  %.%', r.schemaname, r.tablename;
-            EXECUTE format('DROP TABLE IF EXISTS %I.%I CASCADE', r.schemaname, r.tablename);
-        END LOOP;
-END$$;
-
-
-/* drop all sequence in blog schema */
-DO $$
-DECLARE
-    r record;
-BEGIN
-    FOR r IN select quote_ident(schemaname) AS schemaname, quote_ident(sequencename) as sequencename from pg_sequences where schemaname = 'blog'
-        LOOP
-            RAISE INFO 'Dropping table if exists %.%', r.schemaname, r.sequencename;
-            EXECUTE format('DROP SEQUENCE IF EXISTS %I.%I CASCADE', r.schemaname, r.sequencename);
-        END LOOP;
-END$$;
-
-create sequence blog.users_id_seq;
-create sequence blog.blog_id_seq;
-create sequence blog.menu_id_seq;
-create sequence blog.post_id_seq;
-create sequence blog.comment_id_seq;
-create sequence blog.tag_id_seq;
-create sequence blog.post_tag_id_seq;
+create sequence if not exists blog.users_id_seq;
+create sequence if not exists blog.blog_id_seq;
+create sequence if not exists blog.menu_id_seq;
+create sequence if not exists blog.post_id_seq;
+create sequence if not exists blog.comment_id_seq;
+create sequence if not exists blog.tag_id_seq;
+create sequence if not exists blog.post_tag_id_seq;
 
 comment on sequence blog.users_id_seq is '사용자_테이블_시퀀스';
 comment on sequence blog.blog_id_seq is '블로그_테이블_시퀀스';
@@ -45,7 +19,7 @@ comment on sequence blog.comment_id_seq is '댓글_테이블_시퀀스';
 comment on sequence blog.tag_id_seq is '태그_테이블_시퀀스';
 comment on sequence blog.post_tag_id_seq is '게시물_테그_테이블_시퀀스';
 
-create table blog.users (
+create table if not exists blog.users (
     user_id bigint not null default nextval('blog.users_id_seq'),
     nickname varchar(255) not null,
     email varchar(255) not null,
@@ -62,7 +36,7 @@ comment on column blog.users.email is '사용자_이메일';
 comment on column blog.users.phone_number is '사용자_전화번호';
 comment on column blog.users.age is '사용자_나이';
 
-create table blog.blog (
+create table if not exists blog.blog (
     blog_id bigint not null default nextval('blog.blog_id_seq'),
     user_id bigint not null,
     blog_name varchar(255) not null,
@@ -78,7 +52,7 @@ comment on column blog.blog.blog_create_date is '블로그_생성일자';
 comment on column blog.blog.user_id is '블로그_생성자_아이디';
 
 
-create table blog.menu (
+create table if not exists blog.menu (
     menu_id bigint not null default nextval('blog.menu_id_seq'),
     blog_id bigint not null,
     menu_name varchar(255) not null,
@@ -99,7 +73,7 @@ comment on column blog.menu.parent_menu_id is '자식_메뉴_아이디';
 comment on column blog.menu.blog_id is '소속된_블로그_아이디';
 
 
-create table blog.post (
+create table if not exists blog.post (
     post_id bigint not null default nextval('blog.post_id_seq'),
     menu_id bigint not null,
     subject varchar(255) not null,
@@ -116,7 +90,7 @@ comment on column blog.post.subject is '제목';
 comment on column blog.post.content is '내용';
 comment on column blog.post.writer_id is '작성자_아이디';
 
-create table blog.comment (
+create table if not exists blog.comment (
     comment_id bigint not null default nextval('blog.comment_id_seq'),
     post_id bigint not null,
     content varchar(500) not null,
@@ -132,7 +106,7 @@ comment on column blog.comment.content is '내용';
 comment on column blog.comment.writer_id is '작성자_아이디';
 
 
-create table blog.tag (
+create table if not exists blog.tag (
     tag_id bigint not null default nextval('blog.tag_id_seq'),
     tag_name varchar(255) not null,
     constraint blog_tag_id primary key (tag_id)
@@ -142,7 +116,7 @@ comment on table blog.tag is '태그_테이블';
 comment on column blog.tag.tag_id is '태그_아이디';
 comment on column blog.tag.tag_name is '태그_명칭';
 
-create table blog.post_tag (
+create table if not exists blog.post_tag (
     post_tag_id bigint  default nextval('blog.post_tag_id_seq') not null,
     post_id bigint not null,
     tag_id bigint not null,
