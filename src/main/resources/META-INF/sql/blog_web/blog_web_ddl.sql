@@ -3,13 +3,14 @@ set client_min_messages = warning;
 create schema if not exists blog;
 comment on schema blog is '블로그 사이트를 위한 스키마';
 
-create sequence if not exists blog.users_id_seq;
-create sequence if not exists blog.blog_id_seq;
-create sequence if not exists blog.menu_id_seq;
-create sequence if not exists blog.post_id_seq;
-create sequence if not exists blog.comment_id_seq;
-create sequence if not exists blog.tag_id_seq;
-create sequence if not exists blog.post_tag_id_seq;
+create sequence if not exists blog.users_id_seq increment 1;
+create sequence if not exists blog.blog_id_seq increment 1;
+create sequence if not exists blog.menu_id_seq increment 1;
+create sequence if not exists blog.post_id_seq increment 1;
+create sequence if not exists blog.comment_id_seq increment 1;
+create sequence if not exists blog.tag_id_seq increment 1;
+create sequence if not exists blog.post_tag_id_seq increment 1;
+create sequence if not exists blog.occupation_id_seq increment 1;
 
 comment on sequence blog.users_id_seq is '사용자_테이블_시퀀스';
 comment on sequence blog.blog_id_seq is '블로그_테이블_시퀀스';
@@ -18,8 +19,10 @@ comment on sequence blog.post_id_seq is '게시물_테이블_시퀀스';
 comment on sequence blog.comment_id_seq is '댓글_테이블_시퀀스';
 comment on sequence blog.tag_id_seq is '태그_테이블_시퀀스';
 comment on sequence blog.post_tag_id_seq is '게시물_테그_테이블_시퀀스';
+comment on sequence blog.occupation_id_seq is '직업_테이블_시퀀스';
 
-create table if not exists blog.users (
+create table if not exists blog.users
+(
     user_id bigint not null default nextval('blog.users_id_seq'),
     nickname varchar(255) not null,
     email varchar(255) not null,
@@ -36,7 +39,8 @@ comment on column blog.users.email is '사용자_이메일';
 comment on column blog.users.phone_number is '사용자_전화번호';
 comment on column blog.users.age is '사용자_나이';
 
-create table if not exists blog.blog (
+create table if not exists blog.blog
+(
     blog_id bigint not null default nextval('blog.blog_id_seq'),
     user_id bigint not null,
     blog_name varchar(255) not null,
@@ -52,7 +56,8 @@ comment on column blog.blog.blog_create_date is '블로그_생성일자';
 comment on column blog.blog.user_id is '블로그_생성자_아이디';
 
 
-create table if not exists blog.menu (
+create table if not exists blog.menu
+(
     menu_id bigint not null default nextval('blog.menu_id_seq'),
     blog_id bigint not null,
     menu_name varchar(255) not null,
@@ -73,7 +78,8 @@ comment on column blog.menu.parent_menu_id is '자식_메뉴_아이디';
 comment on column blog.menu.blog_id is '소속된_블로그_아이디';
 
 
-create table if not exists blog.post (
+create table if not exists blog.post
+(
     post_id bigint not null default nextval('blog.post_id_seq'),
     menu_id bigint not null,
     subject varchar(255) not null,
@@ -90,7 +96,8 @@ comment on column blog.post.subject is '제목';
 comment on column blog.post.content is '내용';
 comment on column blog.post.writer_id is '작성자_아이디';
 
-create table if not exists blog.comment (
+create table if not exists blog.comment
+(
     comment_id bigint not null default nextval('blog.comment_id_seq'),
     post_id bigint not null,
     content varchar(500) not null,
@@ -106,7 +113,8 @@ comment on column blog.comment.content is '내용';
 comment on column blog.comment.writer_id is '작성자_아이디';
 
 
-create table if not exists blog.tag (
+create table if not exists blog.tag
+(
     tag_id bigint not null default nextval('blog.tag_id_seq'),
     tag_name varchar(255) not null,
     constraint blog_tag_id primary key (tag_id)
@@ -116,7 +124,8 @@ comment on table blog.tag is '태그_테이블';
 comment on column blog.tag.tag_id is '태그_아이디';
 comment on column blog.tag.tag_name is '태그_명칭';
 
-create table if not exists blog.post_tag (
+create table if not exists blog.post_tag
+(
     post_tag_id bigint  default nextval('blog.post_tag_id_seq') not null,
     post_id bigint not null,
     tag_id bigint not null,
@@ -127,5 +136,37 @@ create table if not exists blog.post_tag (
 comment on table blog.post_tag is '게시물_태그_중간_테이블';
 comment on column blog.post_tag.post_id is '게시물_아이디';
 comment on column blog.post_tag.tag_id is '태그_아이디';
+
+create table blog.occupation
+(
+    occupation_id bigint not null,
+    name          varchar(255),
+    constraint occupation_id_pk primary key (occupation_id)
+);
+
+comment on table blog.occupation is '직업_테이블';
+comment on column blog.occupation.name is '직업_명';
+
+
+create table blog.user_occup
+(
+    user_id bigint not null constraint user_id_fk references blog.users,
+    occupation_id bigint not null constraint occupation_id_fk references blog.occupation
+);
+
+comment on table blog.user_occup is '사용자_직업_중간_테이블';
+
+
+create table blog.address
+(
+    user_id bigint not null,
+    city      varchar(255),
+    road_name varchar(255),
+    zipcode   varchar(255),
+    constraint address_id_pk primary key (user_id),
+    constraint address_to_user_fk foreign key (user_id) references blog.users(user_id)
+);
+
+comment on table blog.address is '주소_테이블';
 
 set client_min_messages = default;

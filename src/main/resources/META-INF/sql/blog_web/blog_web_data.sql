@@ -5,7 +5,6 @@ values (1, 'CodingToastBread', 'dailycode@velog.io', '010-0000-0000', 24),
 
 alter sequence blog.users_id_seq restart with 3;
 
-select * from blog.users;
 
 insert into blog.blog(blog_id, blog_name, blog_create_date, user_id)
 values (1, 'DailyLifeCoding Blog', '2022-10-10', 1),
@@ -15,7 +14,6 @@ values (1, 'DailyLifeCoding Blog', '2022-10-10', 1),
 
 alter sequence blog.blog_id_seq restart with 5;
 
-select * from blog.blog;
 
 insert into blog.menu(menu_id, menu_name, menu_order, parent_menu_id, blog_id)
 VALUES (1, 'programming', 0, null, 1),
@@ -28,7 +26,6 @@ VALUES (1, 'programming', 0, null, 1),
 
 alter sequence blog.menu_id_seq restart with 8;
 
-select * from blog.menu;
 
 insert into blog.post(post_id, menu_id, subject, content, writer_id)
 values (1, 2, 'What is C++?', 'C++ Content...', 1),

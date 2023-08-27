@@ -15,11 +15,12 @@
             <property name="jakarta.persistence.lock.timeout" value="100"/>
             <property name="jakarta.persistence.query.timeout" value="100"/>
 
-            <!-- program 실행할 때마다 DROP 하고 CREATE 하기로 지정함.
-                한번 실행하고 나서는 value 를 none 으로 바꾸면 테스트에서
-                생긴 변동사항을 계속 유지할 수 있다. -->
+
+            <!-- 참고로 위의 jpa 가 제공하는 방식으로 하려면 hibernate.hbm2ddl.auto 설정은 하지 말아야 한다. 꼬일 수 있다.  -->
+<!--            <property name="hibernate.hbm2ddl.auto" value="update" />-->
+
+            <!-- program 실행할 때마다 DROP 하고 CREATE 하기로 지정함. option : none, drop, create, drop-and-create -->
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
-            <!--<property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
 
             <!-- "create schema" 문법 사용 가능 여부 지정 -->
             <property name="jakarta.persistence.schema-generation.create-database-schemas" value="true"/>
@@ -49,8 +50,6 @@
             <property name="hibernate.hbm2ddl.import_files_sql_extractor"
                       value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor"/>
 
-            <!-- 참고로 위의 jpa 가 제공하는 방식으로 하려면 hibernate.hbm2ddl.auto 설정은 하지 말아야 한다. 꼬일 수 있다.  -->
-            <!-- <property name="hibernate.hbm2ddl.auto" value="validate" />-->
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.default_schema" value="blog"/>

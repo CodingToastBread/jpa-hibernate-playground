@@ -1,5 +1,7 @@
 package coding.toast.blog.entity;
 
+import coding.toast.blog.entity.many_to_many.Occupation;
+import coding.toast.blog.entity.one_to_one.Address;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +10,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(schema = "blog", name = "users")
@@ -18,7 +21,7 @@ import java.util.List;
 	allocationSize = 1 // increment size 와 동일해야 함
 )
 @Getter
-@ToString(exclude = "blogList")
+@ToString(exclude = {"blogList", "address", "occupationList"})
 @NoArgsConstructor
 public class User {
 	@Id
@@ -49,4 +52,22 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.age = age;
 	}
+
+	// Testing OneToOne + LazyLoading
+	// it is super important to set "optional = false", if you don't? lazy loading will not work properly!!!
+	@OneToOne(mappedBy = "user", optional = false, fetch = FetchType.LAZY)
+	private Address address;
+	
+	// Testing ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		schema = "blog",
+		name = "user_occup",
+		joinColumns = @JoinColumn(name = "user_id"), // ==> foreign key (user_id)
+		inverseJoinColumns = @JoinColumn(name = "occupation_id"),
+		foreignKey = @ForeignKey(name = "user_id_fk"), // ==> add constraint user_id_fk
+		inverseForeignKey = @ForeignKey(name = "occupation_id_fk")
+	)
+	@OrderBy("name asc")
+	private List<Occupation> occupationList;
 }
