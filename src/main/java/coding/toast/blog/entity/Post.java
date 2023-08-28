@@ -1,5 +1,6 @@
 package coding.toast.blog.entity;
 
+import coding.toast.blog.entity.common.SystemColumnEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Set;
 	allocationSize = 1
 )
 @Getter @NoArgsConstructor
-public class Post {
+public class Post extends SystemColumnEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "postIdSequence")
 	private Long postId;
@@ -31,9 +32,9 @@ public class Post {
 	
 	@Column(length = 1000, nullable = false)
 	private String content;
-	
-	@Column(nullable = false)
-	private Long writerId;
+	//
+	// @Column(nullable = false)
+	// private Long writerId;
 	
 	@OneToMany(mappedBy = "post", orphanRemoval = true)
 	@OrderBy("commentId")

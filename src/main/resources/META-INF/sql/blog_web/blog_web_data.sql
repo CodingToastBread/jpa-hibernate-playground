@@ -27,13 +27,13 @@ VALUES (1, 'programming', 0, null, 1),
 alter sequence blog.menu_id_seq restart with 8;
 
 
-insert into blog.post(post_id, menu_id, subject, content, writer_id)
-values (1, 2, 'What is C++?', 'C++ Content...', 1),
-       (2, 3, 'What is Python?', 'Python Content...', 1),
-       (3, 4, 'What is Java?', 'Java Content...', 1),
-       (4, 6, 'Let''s Talk About Thread', 'Thread Bla Bla Bla', 2),
-       (5, 6, 'Why Asynchronous Client Is Important?', 'Async Bla bla bla', 2),
-       (6, 7, 'Why Do We Need To Learn Computer Science', 'Because...', 2);
+insert into blog.post(post_id, menu_id, subject, content, register_id, regist_timestamp, update_id, update_timestamp)
+values (1, 2, 'What is C++?', 'C++ Content...', 1, now(), 1, now()),
+       (2, 3, 'What is Python?', 'Python Content...', 1, now(), 1, now()),
+       (3, 4, 'What is Java?', 'Java Content...', 1, now(), 1, now()),
+       (4, 6, 'Let''s Talk About Thread', 'Thread Bla Bla Bla', 2, now(), 1, now()),
+       (5, 6, 'Why Asynchronous Client Is Important?', 'Async Bla bla bla', 2, now(), 1, now()),
+       (6, 7, 'Why Do We Need To Learn Computer Science', 'Because...', 2, now(), 1, now());
 
 alter sequence blog.post_id_seq restart with 7;
 

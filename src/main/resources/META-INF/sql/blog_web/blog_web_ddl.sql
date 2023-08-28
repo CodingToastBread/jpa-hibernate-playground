@@ -84,7 +84,11 @@ create table if not exists blog.post
     menu_id bigint not null,
     subject varchar(255) not null,
     content varchar (1000) not null,
-    writer_id bigint not null,
+    register_id bigint not null,
+    regist_timestamp timestamp not null,
+    update_id bigint not null,
+    update_timestamp timestamp not null,
+--     writer_id bigint not null,
     constraint blog_post_pk primary key (post_id),
     constraint blog_post_to_menu_fk foreign key (menu_id) references blog.menu(menu_id)
 );
@@ -94,7 +98,10 @@ comment on column blog.post.post_id is '게시물_아이디';
 comment on column blog.post.menu_id is '소속_메뉴_아이디';
 comment on column blog.post.subject is '제목';
 comment on column blog.post.content is '내용';
-comment on column blog.post.writer_id is '작성자_아이디';
+comment on column blog.post.register_id is '등록자_아이디';
+comment on column blog.post.regist_timestamp is '등록_일시';
+comment on column blog.post.update_id is '수정자_아이디';
+comment on column blog.post.update_timestamp is '수정_일시';
 
 create table if not exists blog.comment
 (
