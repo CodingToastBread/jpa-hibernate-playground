@@ -1,25 +1,28 @@
 ## 1. Simple Blog Web ERD
 
+<!--
 ### draw.io erd 
 
 <img src="README-IMG/blog/blog_website_ERD.drawio.svg"  alt="draw.io.svg"/>
+-->
 
-### intellij erd
+### intellij Table Diagram
 
-<img alt="intellj blog erd" src="README-IMG/blog/blog_intellij_erd.png">
+<img alt="intellj blog erd" src="README-IMG/blog/blog_intellij_uml.png">
 
 > 자세한 스키마 정보는 제가 작성한 DDL 을 보면서 참고하시기 바랍니다. ([링크 참고](src/main/resources/META-INF/sql/blog_web/blog_web_ddl.sql))
 
+<br>
 
-### 1-1. 도메인 한글명
+### 1-1. 주요 도메인 한글명
 
-USER: 사용자
-BLOG: 블로그
-MENU: 메뉴
-POST: 게시물
-COMMENT: 댓글
-POST_TAG: "게시물 <-> 태그" 중간 테이블, N:N 관계 때문에 생성
-TAG: 태그
+- USER: 사용자
+- BLOG: 블로그
+- MENU: 메뉴
+- POST: 게시물
+- COMMENT: 댓글
+- POST_TAG: "게시물 <-> 태그" 중간 테이블, N:N 관계 때문에 생성
+- TAG: 태그
 
 <br><br>
 

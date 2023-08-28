@@ -13,6 +13,13 @@ import lombok.NoArgsConstructor;
 )
 @Getter
 @NoArgsConstructor
+/**
+ * 댓글에도 비밀댓글, 일반댓글이 나뉜다고 생각해봤고,
+ * 그걸 나눠서 table 을 만들기 위해 @Inheritance 기능을 사용해봤습니다.
+ */
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "comment_type", discriminatorType = DiscriminatorType.STRING) // DB 에서 직관적으로 알기 좋게 넣어두는 게 좋다고 한다.
+// InheritanceType.SINGLE_TABLE 사용하면 DiscriminatorColumn 을 표기 안해도 DTYPE 이라는 명칭으로 생긴다.
 public class Comment {
 	
 	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commentIdSequence")
@@ -24,7 +31,8 @@ public class Comment {
 	
 	@Column(length = 500, nullable = false)
 	private String content;
-	
-	@Column(nullable = false)
-	private Long writerId;
+
+//
+//	@Column(nullable = false)
+//	private Long writerId;
 }

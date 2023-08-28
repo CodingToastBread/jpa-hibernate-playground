@@ -101,16 +101,44 @@ create table if not exists blog.comment
     comment_id bigint not null default nextval('blog.comment_id_seq'),
     post_id bigint not null,
     content varchar(500) not null,
-    writer_id bigint not null,
+    comment_type varchar(31) not null,
+--     writer_id bigint not null,
     constraint blog_comment_pk primary key (comment_id),
     constraint blog_comment_to_post_fk foreign key (post_id) references blog.post(post_id)
 );
 
-comment on table blog.comment is '댓글_테이블';
+comment on table  blog.comment is '댓글_테이블';
 comment on column blog.comment.comment_id is '댓글_아이디';
 comment on column blog.comment.post_id is '소속_게시물_아이디';
 comment on column blog.comment.content is '내용';
-comment on column blog.comment.writer_id is '작성자_아이디';
+-- comment on column blog.comment.writer_id is '작성자_아이디';
+
+create table if not exists blog.anonymous_comment
+(
+    comment_id  bigint       not null,
+    password    varchar(255) not null,
+    temp_nickname varchar(255),
+    constraint blog_anonymous_comment_pk primary key (comment_id),
+    constraint blog_anonymous_comment_to_comment_fk foreign key (comment_id) references blog.comment(comment_id)
+);
+
+comment on table blog.anonymous_comment is '익명_댓글_테이블';
+comment on column blog.anonymous_comment.comment_id is '댓글_아이디';
+comment on column blog.anonymous_comment.password is '수정+삭제용_비밀번호';
+comment on column blog.anonymous_comment.temp_nickname is '익명사용자_임시_닉네임';
+
+
+create table if not exists blog.normal_comment
+(
+    comment_id bigint not null,
+    writer_id  bigint,
+    constraint blog_normal_comment_pk primary key (comment_id),
+    constraint blog_normal_comment_to_comment_fk foreign key (comment_id) references blog.comment(comment_id)
+);
+
+comment on table blog.normal_comment is '일반_댓글_테이블';
+comment on column blog.normal_comment.comment_id is '댓글_아이디';
+comment on column blog.normal_comment.writer_id is '작성자_아이디';
 
 
 create table if not exists blog.tag
@@ -137,7 +165,7 @@ comment on table blog.post_tag is '게시물_태그_중간_테이블';
 comment on column blog.post_tag.post_id is '게시물_아이디';
 comment on column blog.post_tag.tag_id is '태그_아이디';
 
-create table blog.occupation
+create table  if not exists blog.occupation
 (
     occupation_id bigint not null,
     name          varchar(255),
@@ -148,7 +176,7 @@ comment on table blog.occupation is '직업_테이블';
 comment on column blog.occupation.name is '직업_명';
 
 
-create table blog.user_occup
+create table  if not exists blog.user_occup
 (
     user_id bigint not null constraint user_id_fk references blog.users,
     occupation_id bigint not null constraint occupation_id_fk references blog.occupation
@@ -157,7 +185,7 @@ create table blog.user_occup
 comment on table blog.user_occup is '사용자_직업_중간_테이블';
 
 
-create table blog.address
+create table if not exists blog.address
 (
     user_id bigint not null,
     city      varchar(255),

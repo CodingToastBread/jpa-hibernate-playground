@@ -14,13 +14,13 @@
             <property name="jakarta.persistence.jdbc.password" value="postgres"/>
             <property name="jakarta.persistence.lock.timeout" value="100"/>
             <property name="jakarta.persistence.query.timeout" value="100"/>
+            <property name="hibernate.discriminator.ignore_explicit_for_joined" value="true"/>
 
-
-            <!-- 참고로 위의 jpa 가 제공하는 방식으로 하려면 hibernate.hbm2ddl.auto 설정은 하지 말아야 한다. 꼬일 수 있다.  -->
-<!--            <property name="hibernate.hbm2ddl.auto" value="update" />-->
+            <!-- hibernate.hbm2ddl.auto 설정은 jakarta.persistence.schema-generation.database.action 와 동시 설정 금지. ignore 되는 경우가 다수임  -->
+            <property name="hibernate.hbm2ddl.auto" value="create" />
 
             <!-- program 실행할 때마다 DROP 하고 CREATE 하기로 지정함. option : none, drop, create, drop-and-create -->
-            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
 
             <!-- "create schema" 문법 사용 가능 여부 지정 -->
             <property name="jakarta.persistence.schema-generation.create-database-schemas" value="true"/>

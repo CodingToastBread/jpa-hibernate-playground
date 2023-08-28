@@ -51,21 +51,21 @@ values (1, 1),
        (5, 2),
        (6, 2);
 
-
-insert into blog.comment (comment_id, post_id, content, writer_id)
-values (1, 1, 'C++ Reply...1', 2),
-       (2, 1, 'C++ Reply...2', 2),
-       (3, 2, 'Python Reply...1', 2),
-       (4, 2, 'Python Reply...2', 2),
-       (5, 3, 'Java Reply...1', 2),
-       (6, 3, 'Java Reply...2', 2);
-
-insert into blog.comment (comment_id, post_id, content, writer_id)
-values (7, 4, 'About Thread Reply...1', 2),
-       (8, 4, 'About Thread Reply...2', 2),
-       (9, 4, 'About Thread Reply...3', 2),
-       (10, 5, 'Why Async - Reply...1', 2),
-       (11, 5, 'Why Async - Reply...1', 2),
-       (12, 6, 'CS Reply...1', 2);
-
-alter sequence blog.comment_id_seq restart with 13;
+--
+-- insert into blog.comment (comment_id, post_id, content, writer_id)
+-- values (1, 1, 'C++ Reply...1', 2),
+--        (2, 1, 'C++ Reply...2', 2),
+--        (3, 2, 'Python Reply...1', 2),
+--        (4, 2, 'Python Reply...2', 2),
+--        (5, 3, 'Java Reply...1', 2),
+--        (6, 3, 'Java Reply...2', 2);
+--
+-- insert into blog.comment (comment_id, post_id, content, writer_id)
+-- values (7, 4, 'About Thread Reply...1', 2),
+--        (8, 4, 'About Thread Reply...2', 2),
+--        (9, 4, 'About Thread Reply...3', 2),
+--        (10, 5, 'Why Async - Reply...1', 2),
+--        (11, 5, 'Why Async - Reply...1', 2),
+--        (12, 6, 'CS Reply...1', 2);
+--
+-- alter sequence blog.comment_id_seq restart with 13;
